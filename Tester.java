@@ -3,20 +3,22 @@ import java.util.Scanner;
 
 public class Tester {
 
-  public static void main(String[] args) {
-    ArrayList<BookType> bookInventory = new ArrayList<>();
+  public static ArrayList<BookType> bookInventory = new ArrayList<>();
+  public static Scanner input = new Scanner(System.in);
 
-    Scanner input = new Scanner(System.in);
+  // !! Add book
 
-    System.out.println("How many books you want to add ? ");
+  public static void add_book() {
+    System.out.println("\nHow many books you want to add ? ");
 
     int total_books = input.nextInt();
     for (int i = 0; i < total_books; i++) {
-      //   String loop_book_type = "bookType" + i;
-      input.nextLine(); // Using this to make input scanner point to new line
+      input.nextLine(); // !! Using this to make input scanner point to new line as nextint() takes only int and point to next space
       BookType loop_book_type = new BookType();
       System.out.println(
-        "What is the Category(Science, Chemistry, Physics ...) of the book ?"
+        "\n\nWhat is the Category(Science, Chemistry, Physics ...) of the book " +
+        (i + 1) +
+        "? "
       );
       loop_book_type.SetCategory(input.nextLine());
 
@@ -44,21 +46,45 @@ public class Tester {
 
       bookInventory.add(loop_book_type);
     }
-    for (BookType a : bookInventory) {
-      System.out.println(a);
+    // input.close();
+  }
+
+  // !! Remove book
+  public static void remove_book() {
+    // Scanner input = new Scanner(System.in);
+
+    System.out.println(
+      "Choose an index of the book you want to remove from below list"
+    );
+    view_books();
+    int user_choice;
+    user_choice = input.nextInt();
+    if (user_choice <= bookInventory.size() && user_choice > 0) {
+      System.out.println("Book Removed from the inventory");
+      bookInventory.remove(user_choice - 1);
+    } else {
+      System.out.println("No Such Index");
     }
+    view_books();
+  }
 
-    System.out.println(bookInventory.get(0));
+  public static void view_books() {
+    int i = 1; // !! variable i is used to iterated using index for arraylist
+    for (BookType a : bookInventory) {
+      System.out.println("(" + i + ") " + a);
+      i++;
+    }
+  }
 
-    // BookType b1 = new BookType("Science");
-    // b1.Set_all("Agile", "Aksh", 123456, 500, "Uwindsor", 2000, 10);
-
-    // BookType b2 = new BookType("Science");
-    // b2.Set_all("Cyber", "Patel", 123456, 500, "Uwindsor", 2000, 10);
-    // bookInventory.add(b1);
-    // bookInventory.add(b2);
-
-    // System.out.println(bookInventory);
+  public static void main(String[] args) {
+    // !! Printing List of all items for user
+    view_books();
+    add_book();
+    remove_book();
+    
+    // for (BookType a : bookInventory) {
+    //   System.out.println(a);
+    // }
 
     input.close();
   }

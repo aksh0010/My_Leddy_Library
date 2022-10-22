@@ -10,7 +10,7 @@ public class Book {
 
   String name;
   String author;
-  int isbn; // unique
+  int isbn; // !! unique
   double price;
   String publisher;
   int year;
@@ -44,7 +44,7 @@ public class Book {
     this.total_units = total_units;
   }
 
-  // Setter methods
+  // !! Setter methods
   public void Set_all(
     String name,
     String author,
@@ -91,7 +91,7 @@ public class Book {
     this.total_units = a;
   }
 
-  //   getter methods
+  //   !! getter methods
 
   public String getName() {
     return this.name;

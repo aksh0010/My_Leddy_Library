@@ -12,12 +12,12 @@ public class BookType extends Book {
     this.category = category;
   }
 
-  // Setter methods
+  // !! Setter methods
   public void SetCategory(String a) {
     this.category = a;
   }
 
-  // Getter methods
+  // !! Getter methods
   public String getCategory() {
     return this.category;
   }
