@@ -12,14 +12,26 @@ public class Book {
   String author;
   int isbn; // unique
   double price;
+  String publisher;
+  int year;
 
   public Book() {}
 
-  public Book(String a, String b, int c, double d) {
-    this.name = a;
-    this.author = b;
-    this.isbn = c;
-    this.price = d;
+  /**
+ * @param name
+ * @param author
+ * @param isbn
+ * @param cost
+ * @param publisher
+ * @param year
+ */
+public Book(String name, String author, int isbn, double cost, String publisher, int year) {
+    this.name = name;
+    this.author = author;
+    this.isbn = isbn;
+    this.price = cost;
+	this.publisher =publisher;
+	this.year=year;
   }
 
   public void SetName(String a) {
