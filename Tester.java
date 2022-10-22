@@ -13,6 +13,7 @@ public class Tester {
     int total_books = input.nextInt();
     for (int i = 0; i < total_books; i++) {
       //   String loop_book_type = "bookType" + i;
+      input.nextLine(); // Using this to make input scanner point to new line
       BookType loop_book_type = new BookType();
       System.out.println(
         "What is the Category(Science, Chemistry, Physics ...) of the book ?"
@@ -25,21 +26,16 @@ public class Tester {
       System.out.println("Who is the author of the book ?");
       loop_book_type.SetAuthor(input.nextLine());
 
+      System.out.println("Who is the publisher of the book ?");
+      loop_book_type.SetPublisher(input.nextLine());
       System.out.println("What is the ISBN of the book ?");
       loop_book_type.SetISBN(input.nextInt());
 
-      System.out.println("Who is the publisher of the book ?");
-      loop_book_type.SetPublisher(input.nextLine());
       System.out.println("What is the make year of the book ?");
       loop_book_type.SetYear(input.nextInt());
 
       System.out.println("How many units in total do we have ?");
       loop_book_type.SetUnit(input.nextInt());
-
-      System.out.println(
-        "What is the cost of each units in Canadian Dollars ?"
-      );
-      loop_book_type.SetPrice(input.nextDouble());
 
       System.out.println(
         "What is the cost of each units in Canadian Dollars ?"

@@ -138,7 +138,7 @@ public class Book {
       "CAD" +
       ",Total available :" +
       this.total_units +
-      " Category"
+      " Category "
     );
   }
   /**
