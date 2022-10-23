@@ -85,9 +85,10 @@ public class Tester {
   }
 
   // !! Priting inventory in tabulor form
-  public static void view_books() {
+  public static boolean view_books() {
     if (bookInventory.size() == 0) {
       System.out.println("\n\n There is no data to show :( \n ");
+      return false;
     } else {
       System.out.println(
         "---------------------------------------------------------------------------------------------------------------------------"
@@ -103,6 +104,7 @@ public class Tester {
         "TOTAL_IN_STOCK",
         "COST_PER_UNIT"
       );
+      
       System.out.println();
       System.out.println(
         "---------------------------------------------------------------------------------------------------------------------------"
@@ -120,11 +122,13 @@ public class Tester {
           a.getPrice()
         );
         System.out.println();
+        
       }
+      System.out.println(
+    	      "---------------------------------------------------------------------------------------------------------------------------"
+      );
+      return true;
     }
-    System.out.println(
-      "---------------------------------------------------------------------------------------------------------------------------"
-    );
   }
 
   // !! Update details of individual object
