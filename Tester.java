@@ -1,3 +1,11 @@
+/**
+ *
+ */
+
+/**
+ * @author Aksh Patel
+ * @author Liam Richter Gorey
+ */
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -8,62 +16,74 @@ public class Tester {
   public static Scanner input = new Scanner(System.in);
 
   // !! Add book
+  // !! Returns String of all book name
 
-  public static void add_book() {
+  public static String add_book() {  
     System.out.println(
       "---------------------- Adding Book ----------------------"
     );
     System.out.println("\nHow many books you want to add ? ");
-
+    String to_return="";
     int total_books = input.nextInt();
-    for (int i = 0; i < total_books; i++) {
-      input.nextLine(); // !! Using this to make input scanner point to new line as nextint() takes only int and point to next space
-      BookType loop_book_type = new BookType();
-      System.out.println(
-        "\n\nWhat is the Category(Science, Chemistry, Physics ...) of the book " +
-        (i + 1) +
-        "? "
-      );
-      loop_book_type.SetCategory(input.nextLine());
-
-      System.out.println("What is the Title of the book ?");
-      loop_book_type.SetName(input.nextLine());
-
-      System.out.println("Who is the author of the book ?");
-      loop_book_type.SetAuthor(input.nextLine());
-
-      System.out.println("Who is the publisher of the book ?");
-      loop_book_type.SetPublisher(input.nextLine());
-      System.out.println("What is the ISBN of the book ?");
-      loop_book_type.SetISBN(input.nextInt());
-
-      System.out.println("What is the make year of the book ?");
-      loop_book_type.SetYear(input.nextInt());
-
-      System.out.println("How many units in total do we have ?");
-      loop_book_type.SetUnit(input.nextInt());
-
-      System.out.println(
-        "What is the cost of each units in Canadian Dollars ?"
-      );
-      loop_book_type.SetPrice(input.nextDouble());
-
-      bookInventory.add(loop_book_type);
+    if(total_books >= 1) {
+	    for (int i = 0; i < total_books; i++) {
+	      input.nextLine(); // !! Using this to make input scanner point to new line as nextint() takes only int and point to next space
+	      BookType loop_book_type = new BookType();
+	      System.out.println(
+	        "\n\nWhat is the Category(Science, Chemistry, Physics ...) of the book " +
+	        (i + 1) +
+	        "? "
+	      );
+	      loop_book_type.SetCategory(input.nextLine());
+	
+	      System.out.println("What is the Title of the book ?");
+	      loop_book_type.SetName(input.nextLine());
+	
+	      System.out.println("Who is the author of the book ?");
+	      loop_book_type.SetAuthor(input.nextLine());
+	
+	      System.out.println("Who is the publisher of the book ?");
+	      loop_book_type.SetPublisher(input.nextLine());
+	      System.out.println("What is the ISBN of the book ?");
+	      loop_book_type.SetISBN(input.nextInt());
+	
+	      System.out.println("What is the make year of the book ?");
+	      loop_book_type.SetYear(input.nextInt());
+	
+	      System.out.println("How many units in total do we have ?");
+	      loop_book_type.SetUnit(input.nextInt());
+	
+	      System.out.println(
+	        "What is the cost of each units in Canadian Dollars ?"
+	      );
+	      loop_book_type.SetPrice(input.nextDouble());
+	
+	      bookInventory.add(loop_book_type);
+	      to_return = to_return + loop_book_type.getName();
+	    }
+    }
+    else {
+    	to_return = "!!Error!!";
     }
     System.out.println(
       "-----------------------------------------------------------"
     );
     // input.close();
+    return  to_return;
   }
 
   // !! Remove book
-  public static void remove_book() {
+  public static boolean remove_book() {
     // Scanner input = new Scanner(System.in);
     System.out.println(
       "---------------------- Removing Book ----------------------"
     );
     if (bookInventory.size() == 0) {
       System.out.println("No Book Found in the data to remove\n");
+      System.out.println(
+    	      "-----------------------------------------------------------"
+    	    );
+      return false;
     } else {
       view_books();
       System.out.println(
@@ -72,16 +92,20 @@ public class Tester {
       int user_choice;
       user_choice = input.nextInt();
       if (user_choice <= bookInventory.size() && user_choice > 0) {
-        System.out.println("Book Removed from the inventory");
+        System.out.println(bookInventory.get(user_choice-1).getName()+" Removed from the inventory");
         bookInventory.remove(user_choice - 1);
+        System.out.println(
+        	      "-----------------------------------------------------------"
+        	    );
+        return true;
       } else {
         System.out.println(" !! No Such Index");
-      }
-      view_books();
+        System.out.println(
+        	      "-----------------------------------------------------------"
+        	    );
+        return false;
+      }   
     }
-    System.out.println(
-      "-----------------------------------------------------------"
-    );
   }
 
   // !! Priting inventory in tabulor form
@@ -132,15 +156,19 @@ public class Tester {
   }
 
   // !! Update details of individual object
-  public static void update_details() {
+  public static boolean update_details() {
     if (bookInventory.size() == 0) {
       System.out.println("\n\nNo book in database to update details");
+      System.out.println(
+    	      "-----------------------------------------------------------"
+    	    );
+      return false;
     } else {
       view_books();
       System.out.println("Which book you want to update ( Choose index)");
 
       int temp = input.nextInt();
-
+      
       if (temp <= bookInventory.size() && temp > 0) {
         BookType refBook = bookInventory.get(temp - 1);
 
@@ -153,7 +181,7 @@ public class Tester {
             System.out.println("Enter new name of the book");
             input.nextLine(); // !! reference  the input to new line as nextint() doesnot point to new line
 
-            refBook.SetAuthor(input.nextLine());
+            refBook.SetName(input.nextLine());
             System.out.println(
               "---------------------- Updated list ----------------------"
             );
@@ -213,14 +241,21 @@ public class Tester {
             break;
           default:
             System.out.println("!! No such index");
+            System.out.println(
+            	      "-----------------------------------------------------------"
+            	    );
+            return false;
         }
+        return true;
       } else {
         System.out.println("!! No such index");
+        System.out.println(
+        	      "-----------------------------------------------------------"
+        	    );
+        return false;
       }
     }
-    System.out.println(
-      "-----------------------------------------------------------"
-    );
+  
   }
 
   public static void main(String[] args) {
