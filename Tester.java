@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Tester {
@@ -9,6 +10,9 @@ public class Tester {
   // !! Add book
 
   public static void add_book() {
+    System.out.println(
+      "---------------------- Adding Book ----------------------"
+    );
     System.out.println("\nHow many books you want to add ? ");
 
     int total_books = input.nextInt();
@@ -46,46 +50,235 @@ public class Tester {
 
       bookInventory.add(loop_book_type);
     }
+    System.out.println(
+      "-----------------------------------------------------------"
+    );
     // input.close();
   }
 
   // !! Remove book
   public static void remove_book() {
     // Scanner input = new Scanner(System.in);
-
     System.out.println(
-      "Choose an index of the book you want to remove from below list"
+      "---------------------- Removing Book ----------------------"
     );
-    view_books();
-    int user_choice;
-    user_choice = input.nextInt();
-    if (user_choice <= bookInventory.size() && user_choice > 0) {
-      System.out.println("Book Removed from the inventory");
-      bookInventory.remove(user_choice - 1);
+    if (bookInventory.size() == 0) {
+      System.out.println("No Book Found in the data to remove\n");
     } else {
-      System.out.println("No Such Index");
+      view_books();
+      System.out.println(
+        "Choose an index of the book you want to remove from below list"
+      );
+      int user_choice;
+      user_choice = input.nextInt();
+      if (user_choice <= bookInventory.size() && user_choice > 0) {
+        System.out.println("Book Removed from the inventory");
+        bookInventory.remove(user_choice - 1);
+      } else {
+        System.out.println(" !! No Such Index");
+      }
+      view_books();
     }
-    view_books();
+    System.out.println(
+      "-----------------------------------------------------------"
+    );
   }
 
+  // !! Priting inventory in tabulor form
   public static void view_books() {
-    int i = 1; // !! variable i is used to iterated using index for arraylist
-    for (BookType a : bookInventory) {
-      System.out.println("(" + i + ") " + a);
-      i++;
+    if (bookInventory.size() == 0) {
+      System.out.println("\n\n There is no data to show :( \n ");
+    } else {
+      System.out.println(
+        "---------------------------------------------------------------------------------------------------------------------------"
+      );
+      System.out.printf(
+        "%10s %15s %15s%15s %15s%15s %15s %15s",
+        "NAME",
+        "AUTHOR",
+        "PUBLISHER",
+        "CATEGORY",
+        "ISBN",
+        "MAKE_YEAR",
+        "TOTAL_IN_STOCK",
+        "COST_PER_UNIT"
+      );
+      System.out.println();
+      System.out.println(
+        "---------------------------------------------------------------------------------------------------------------------------"
+      );
+      for (BookType a : bookInventory) {
+        System.out.printf(
+          "%10s %15s %15s%15s %15s%15s %15s %15s",
+          a.getName(),
+          a.getAuthor(),
+          a.getPublisher(),
+          a.getCategory(),
+          a.getISBN(),
+          a.getYear(),
+          a.getUnit(),
+          a.getPrice()
+        );
+        System.out.println();
+      }
     }
+    System.out.println(
+      "---------------------------------------------------------------------------------------------------------------------------"
+    );
+  }
+
+  // !! Update details of individual object
+  public static void update_details() {
+    if (bookInventory.size() == 0) {
+      System.out.println("\n\nNo book in database to update details");
+    } else {
+      view_books();
+      System.out.println("Which book you want to update ( Choose index)");
+
+      int temp = input.nextInt();
+
+      if (temp <= bookInventory.size() && temp > 0) {
+        BookType refBook = bookInventory.get(temp - 1);
+
+        System.out.println(
+          "What do you want to update regarding the book ?\n 1) Name 2)Author 3) Publisher 4) Cost 5) ISBN 6)Make Year 7)Total units available"
+        );
+
+        switch (input.nextInt()) {
+          case 1:
+            System.out.println("Enter new name of the book");
+            input.nextLine(); // !! reference  the input to new line as nextint() doesnot point to new line
+
+            refBook.SetAuthor(input.nextLine());
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books();
+
+            break;
+          case 2:
+            System.out.println("Enter new Author name of the book");
+            input.nextLine(); // !! reference  the input to new line as nextint() doesnot point to new line
+            refBook.SetAuthor(input.nextLine());
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books();
+
+            break;
+          case 3:
+            System.out.println("Enter new Publisher name of the book");
+            input.nextLine(); // !! reference  the input to new line as nextint() doesnot point to new line
+            refBook.SetPublisher(input.nextLine());
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books();
+            break;
+          case 4:
+            System.out.println("Enter new Cost per unit of the book");
+            refBook.SetPrice(input.nextDouble());
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books();
+            break;
+          case 5:
+            System.out.println("Enter new ISBN of the book");
+            refBook.SetISBN(input.nextInt());
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books();
+            break;
+          case 6:
+            System.out.println("Enter new Make Year of the book");
+            refBook.SetYear(input.nextInt());
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books();
+            break;
+          case 7:
+            System.out.println("Enter new Make Year of the book");
+            refBook.SetUnit((input.nextInt()));
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books();
+            break;
+          default:
+            System.out.println("!! No such index");
+        }
+      } else {
+        System.out.println("!! No such index");
+      }
+    }
+    System.out.println(
+      "-----------------------------------------------------------"
+    );
   }
 
   public static void main(String[] args) {
     // !! Printing List of all items for user
-    view_books();
-    add_book();
-    remove_book();
-    
-    // for (BookType a : bookInventory) {
-    //   System.out.println(a);
-    // }
+    Scanner main_menu_input = new Scanner(System.in);
+    try {
+      int user_choice;
+      Boolean loop_Condition = true;
+      System.out.println(
+        "---------------------- Welcome ---------------------- "
+      );
+      do {
+        System.out.println("Choose an option to perform ? ");
+        System.out.println(
+          "1) View Inventory \n2) Add new books \n3) Remove books \n4) Update information for exisiting book\n5) Quit"
+        );
+        user_choice = main_menu_input.nextInt();
+
+        switch (user_choice) {
+          case 1:
+            view_books();
+            break;
+          case 2:
+            add_book();
+            break;
+          case 3:
+            remove_book();
+            break;
+          case 4:
+            update_details();
+            break;
+          case 5:
+            loop_Condition = false;
+
+            break;
+          default:
+            System.out.println("No such option \n\n");
+        }
+      } while (loop_Condition);
+      System.out.println("\n\nGood Bye ! \n");
+      System.out.println(
+        "-----------------------------------------------------------"
+      );
+    } catch (InputMismatchException e) {
+      System.err.println(
+        "***************** You have entered wrong format of input |" +
+        e +
+        "|*****************\n\n"
+      );
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.err.println(
+        "*****************Index number doesnot exist |" +
+        e +
+        "|*****************\n\n"
+      );
+    } catch (Exception e) {
+      System.err.println(
+        "***************** Error caught |" + e + "|*****************\n\n"
+      );
+    }
 
     input.close();
+    main_menu_input.close();
   }
 }
