@@ -1,20 +1,17 @@
 /**
- *
- */
-
-/**
- * @author akshr
- *
+ * @author Aksh Patel
+ * @author Liam Richter Gorey
  */
 public class Book {
 
   String name;
   String author;
-  int isbn; // !! unique
+  long isbn; // !! unique
   double price;
   String publisher;
   int year;
   int total_units;
+  boolean available = false;
 
   public Book() {}
 
@@ -29,11 +26,12 @@ public class Book {
   public Book(
     String name,
     String author,
-    int isbn,
+    long isbn,
     double cost,
     String publisher,
     int year,
-    int total_units
+    int total_units,
+    boolean available
   ) {
     this.name = name;
     this.author = author;
@@ -42,17 +40,19 @@ public class Book {
     this.publisher = publisher;
     this.year = year;
     this.total_units = total_units;
+    this.available = available;
   }
 
   // !! Setter methods
   public void Set_all(
     String name,
     String author,
-    int isbn,
+    long isbn,
     double cost,
     String publisher,
     int year,
-    int total_units
+    int total_units,
+    boolean available
   ) {
     this.name = name;
     this.author = author;
@@ -61,6 +61,7 @@ public class Book {
     this.publisher = publisher;
     this.year = year;
     this.total_units = total_units;
+    this.available = available;
   }
 
   public void SetName(String a) {
@@ -71,12 +72,12 @@ public class Book {
     this.author = a;
   }
 
-  public void SetISBN(int a) {
-    this.isbn = a;
+  public void SetISBN(long a) {
+    if (a > 0) this.isbn = a;
   }
 
   public void SetPrice(double a) {
-    this.price = a;
+    if (a >= 0) this.price = a;
   }
 
   public void SetPublisher(String a) {
@@ -84,11 +85,18 @@ public class Book {
   }
 
   public void SetYear(int a) {
-    this.year = a;
+    if (a > 0) this.year = a;
   }
 
   public void SetUnit(int a) {
-    this.total_units = a;
+    if (a >= 0) {
+      this.total_units = a;
+      calc_Availability();
+    }
+  }
+
+  public void setAvailability(boolean a) {
+    this.available = a;
   }
 
   //   !! getter methods
@@ -101,7 +109,7 @@ public class Book {
     return this.author;
   }
 
-  public int getISBN() {
+  public long getISBN() {
     return this.isbn;
   }
 
@@ -119,6 +127,16 @@ public class Book {
 
   public int getUnit() {
     return this.total_units;
+  }
+
+  public void calc_Availability() {
+    if (total_units > 0) {
+      this.available = true;
+    }
+  }
+
+  public boolean getAvailability() {
+    return this.available;
   }
 
   @Override
@@ -144,4 +162,5 @@ public class Book {
   /**
    * @param args
    */
+  //Remove a book from
 }
