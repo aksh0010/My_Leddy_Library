@@ -1,8 +1,4 @@
 /**
- *
- */
-
-/**
  * @author Aksh Patel
  * @author Liam Richter Gorey
  */
@@ -10,7 +6,7 @@ public class Book {
 
   String name;
   String author;
-  int isbn; // !! unique
+  long isbn; // !! unique
   double price;
   String publisher;
   int year;
@@ -30,7 +26,7 @@ public class Book {
   public Book(
     String name,
     String author,
-    int isbn,
+    long isbn,
     double cost,
     String publisher,
     int year,
@@ -51,12 +47,12 @@ public class Book {
   public void Set_all(
     String name,
     String author,
-    int isbn,
+    long isbn,
     double cost,
     String publisher,
     int year,
     int total_units,
-    boolean available 
+    boolean available
   ) {
     this.name = name;
     this.author = author;
@@ -76,14 +72,12 @@ public class Book {
     this.author = a;
   }
 
-  public void SetISBN(int a) {
-	if(a > 0) 
-		this.isbn = a;
+  public void SetISBN(long a) {
+    if (a > 0) this.isbn = a;
   }
 
   public void SetPrice(double a) {
-	  if(a  >= 0)
-		  this.price = a;
+    if (a >= 0) this.price = a;
   }
 
   public void SetPublisher(String a) {
@@ -91,20 +85,20 @@ public class Book {
   }
 
   public void SetYear(int a) {
-	  if(a > 0)
-		  this.year = a;
+    if (a > 0) this.year = a;
   }
 
   public void SetUnit(int a) {
-    if(a >= 0 ) {
-    	  this.total_units = a;
-    	  calc_Availability();
+    if (a >= 0) {
+      this.total_units = a;
+      calc_Availability();
     }
   }
 
   public void setAvailability(boolean a) {
-	 this.available = a;
+    this.available = a;
   }
+
   //   !! getter methods
 
   public String getName() {
@@ -115,7 +109,7 @@ public class Book {
     return this.author;
   }
 
-  public int getISBN() {
+  public long getISBN() {
     return this.isbn;
   }
 
@@ -134,14 +128,17 @@ public class Book {
   public int getUnit() {
     return this.total_units;
   }
+
   public void calc_Availability() {
-	  if(total_units > 0) {
-		  this.available = true;
-	  }
+    if (total_units > 0) {
+      this.available = true;
+    }
   }
+
   public boolean getAvailability() {
-	  return this.available;
+    return this.available;
   }
+
   @Override
   public String toString() {
     return (
@@ -165,5 +162,5 @@ public class Book {
   /**
    * @param args
    */
-  //Remove a book from 
+  //Remove a book from
 }
