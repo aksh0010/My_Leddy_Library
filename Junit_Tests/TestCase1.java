@@ -16,8 +16,8 @@ class TestCase1 {
 	@Test
 	void testcase1() {
 		try {
-		Tester.add_book(); // !! Mandatory 0 or negative value (anything below 1)
-		assertEquals(false,Tester.view_books());
+		Function.add_book(); // !! Mandatory 0 or negative value (anything below 1)
+		assertEquals(false,Function.view_books());
 		}
 		catch(Exception e){
 			 fail("Error" + e);
@@ -27,8 +27,8 @@ class TestCase1 {
 	@Test
 	void testcase2() {
 		try {
-			Tester.add_book(); 	// !! Mandatory add only 1 book		
-			assertEquals(true,Tester.view_books());
+			Function.add_book(); 	// !! Mandatory add only 1 book		
+			assertEquals(true,Function.view_books());
 			}
 			catch(Exception e){
 				fail("Error" + e);
@@ -38,8 +38,8 @@ class TestCase1 {
 	@Test
 	void testcase3() {
 		try {
-			Tester.add_book(); // !! add more then 1 book
-			assertEquals(true,Tester.view_books());
+			Function.add_book(); // !! add more then 1 book
+			assertEquals(true,Function.view_books());
 			}
 			catch(Exception e){
 				fail("Error" + e);

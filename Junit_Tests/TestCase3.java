@@ -12,9 +12,9 @@ class TestCase3 {
 	/*As a bookkeeper, I want to remove books from my inventory.*/
 	@Test
 	void testcase1() {
-		Tester.add_book();//add any number of books2
+		Function.add_book();//add any number of books2
 		try {
-			assertEquals(true, Tester.remove_book());
+			assertEquals(true, Function.remove_book());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
@@ -24,7 +24,7 @@ class TestCase3 {
 		//Tester.add_book();
 		//Test for not removing anything 
 		try {
-			assertEquals(false, Tester.remove_book());
+			assertEquals(false, Function.remove_book());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
