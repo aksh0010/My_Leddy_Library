@@ -1,14 +1,27 @@
+/**
+ * @author Aksh Patel
+ * @author Liam Richter Gorey
+ */
+import java.text.ParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Customer_tester {
 
-  public static void main(String[] args) {
-    Function CustomerTester = new Function();
+  public static void main(String[] args) throws ParseException {
+    Inventory sInventory = new Inventory();
 
-    // !! Printing List of all items for user
+    Customer_Account c1 = new Customer_Account(
+      "Aksh",
+      "Patel",
+      "10/08/2001",
+      "aksh@gmail.com",
+      12345678
+    );
+    // !! Printing List of a ll items for user
 
     Scanner main_menu_input = new Scanner(System.in);
+
     try {
       int user_choice;
       Boolean loop_Condition = true;
@@ -16,31 +29,27 @@ public class Customer_tester {
         "---------------------- Welcome ---------------------- "
       );
       do {
-        System.out.println("Choose an option to perform ? ");
+        System.out.println("\nChoose an option to perform ? ");
         System.out.println(
-          "1) View Inventory \n2) Add new books \n3) Remove books \n4) Update information for exisiting book\n5) Quit"
+          "\n1) View my Account \n2) View Books avaibale in the Store \n3) Update my account \n4) Quit"
         );
         user_choice = main_menu_input.nextInt();
 
         switch (user_choice) {
           case 1:
-            CustomerTester.view_books();
+            c1.View_account();
             break;
           case 2:
-            CustomerTester.add_book();
+            sInventory.view_books();
             break;
           case 3:
-            CustomerTester.remove_book();
+            c1.update_account();
             break;
           case 4:
-            CustomerTester.update_details();
-            break;
-          case 5:
             loop_Condition = false;
-
             break;
           default:
-            System.out.println("No such option \n\n");
+            System.out.println("\nNo such option \n\n");
         }
       } while (loop_Condition);
       System.out.println("\n\nGood Bye ! \n");

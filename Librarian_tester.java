@@ -1,10 +1,14 @@
+/**
+ * @author Aksh Patel
+ * @author Liam Richter Gorey
+ */
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Librarian_tester {
 
   public static void main(String[] args) {
-    Function librarianTester = new Function();
+    Inventory sInventory = new Inventory();
 
     // !! Printing List of all items for user
 
@@ -24,16 +28,16 @@ public class Librarian_tester {
 
         switch (user_choice) {
           case 1:
-            librarianTester.view_books();
+            sInventory.view_books();
             break;
           case 2:
-            librarianTester.add_book();
+            sInventory.add_book();
             break;
           case 3:
-            librarianTester.remove_book();
+            sInventory.remove_book();
             break;
           case 4:
-            librarianTester.update_details();
+            sInventory.update_details();
             break;
           case 5:
             loop_Condition = false;

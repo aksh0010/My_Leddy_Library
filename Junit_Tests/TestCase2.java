@@ -17,7 +17,7 @@ class TestCase2 {
 	void testcase1() {
 	//enter 1 book named 1
 		try {
-			assertEquals("1",Function.add_book());
+			assertEquals("1",Inventory.add_book());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
@@ -26,7 +26,7 @@ class TestCase2 {
 	void testcase2() {
 	//enter two books 1 and 2 
 		try {
-			assertEquals("12",Function.add_book());
+			assertEquals("12",Inventory.add_book());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
@@ -35,7 +35,7 @@ class TestCase2 {
 	void testcase3() {
 		//Check for invalid input #ofBooks <= 1
 		try {
-			assertEquals("!!Error!!",Function.add_book());
+			assertEquals("!!Error!!",Inventory.add_book());
 		}catch(Exception e){
 			fail("Error" + e);
 		}

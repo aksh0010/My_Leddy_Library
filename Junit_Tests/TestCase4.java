@@ -14,8 +14,8 @@ class TestCase4 {
 	@Test
 	void testcase1() { // !!update exisitng book
 		try {
-			Function.add_book();
-			assertEquals(true, Function.update_details());
+			Inventory.add_book();
+			assertEquals(true, Inventory.update_details());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
@@ -23,7 +23,7 @@ class TestCase4 {
 	@Test
 	void testcase2() { // !! want to update a book which doesnt exist
 		try {
-			assertEquals(false,Function.update_details());
+			assertEquals(false,Inventory.update_details());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
