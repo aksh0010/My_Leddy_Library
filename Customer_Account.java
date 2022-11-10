@@ -11,7 +11,7 @@ public class Customer_Account {
 
   public static Scanner input = new Scanner(System.in);
   // public static ArrayList<BookType> borrowed_books = new ArrayList<>();
-  public static HashMap<BookType, Integer> borrowed_books = new HashMap<>();
+  public static HashMap<BookType, Integer> borrowed_books = new HashMap<>(); // !! Booktype , number of units
   // public static ArrayList<BookType> wishList_books = new ArrayList<>();
   public static HashMap<BookType, Integer> wishList_books = new HashMap<>();
 
@@ -101,6 +101,76 @@ public class Customer_Account {
     this.email = email;
   }
 
+  // !! View Borrowed books
+
+  public void view_Borrowed_books() {
+    if (borrowed_books.isEmpty()) {
+      System.out.println("___ No borrowed books ___");
+    } else {
+      borrowed_books.forEach((key, value) ->
+        System.out.println(key + " " + value)
+      );
+    }
+  }
+
+  // !!
+  public void add_to_borrowedList(BookType book, int units) {
+    if (units > 0) {
+      if (borrowed_books.containsKey(book)) {
+        borrowed_books.replace(book, units);
+        System.out.println(
+          " Book already in Wishlist. \n Updated the no of units \n"
+        );
+      } else {
+        borrowed_books.putIfAbsent(book, units);
+      }
+    } else {
+      System.out.println("Negative values are not allowed. ");
+    }
+  }
+
+  // !!  Wishlist methods
+
+  public void view_wishlist() {
+    if (wishList_books.isEmpty()) {
+      System.out.println("___ No books in Wishlist ___");
+    } else {
+      // wishList_books.forEach((key, value) ->
+      //   System.out.println(key + " " + value)
+      // );
+
+      wishList_books.forEach((key, value) ->
+        System.out.println(key + " : " + value)
+      );
+    }
+  }
+
+  public void add_to_wishlist(BookType book, int units) {
+    if (units > 0) {
+      if (wishList_books.containsKey(book)) {
+        wishList_books.replace(book, units);
+        System.out.println(
+          " Book already in Wishlist. \n Updated the no of units \n"
+        );
+      } else {
+        wishList_books.putIfAbsent(book, units);
+      }
+    } else {
+      System.out.println("Negative values are not allowed. ");
+    }
+  }
+
+  // !! View Bought/Purchased Books
+  public void view_bought_books() {
+    if (bought_books.isEmpty()) {
+      System.out.println("___ No books Purchased so far ___");
+    } else {
+      for (BookType bookType : bought_books) {
+        System.out.println(bookType);
+      }
+    }
+  }
+
   // !!  View my account.
 
   public void View_account() {
@@ -113,9 +183,10 @@ public class Customer_Account {
     System.out.println("--------------------------------------------------");
   }
 
+  // !! Update account
   public void update_account() {
     System.out.println(
-      "\nWhat do you want to update ?\n1)First Name \n2)Last Name\n3)Email \n4)Contact no \n5)Date of birth \n6)Address"
+      "\nWhat do you want to update ?\n1)First Name \n2)Last Name\n3)Email \n4)Contact no \n5)Date of birth \n6)Address\n7)Go to previous menu\n"
     );
 
     switch (input.nextInt()) {
@@ -155,6 +226,8 @@ public class Customer_Account {
         System.out.print("\nEnter new name address :");
         setAddress(input.nextLine());
         System.out.println("\n Details updated");
+        break;
+      case 7:
         break;
       default:
         System.out.println("\nNo Such index");

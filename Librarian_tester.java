@@ -27,19 +27,19 @@ public class Librarian_tester {
         user_choice = main_menu_input.nextInt();
 
         switch (user_choice) {
-          case 1:
+          case 1: // !! __________________________________View Inventory __________________________________
             sInventory.view_books();
             break;
-          case 2:
+          case 2: // !! __________________________________ Add new books__________________________________
             sInventory.add_book();
             break;
-          case 3:
+          case 3: // !! __________________________________Remove books __________________________________
             sInventory.remove_book();
             break;
-          case 4:
+          case 4: // !! __________________________________ Update information of a book__________________________________
             sInventory.update_details();
             break;
-          case 5:
+          case 5: // !! __________________________________ quit __________________________________
             loop_Condition = false;
 
             break;

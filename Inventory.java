@@ -7,10 +7,15 @@ import java.util.Scanner;
 
 public class Inventory {
 
-  public static ArrayList<BookType> bookInventory = new ArrayList<>();
+  public ArrayList<BookType> bookInventory = new ArrayList<>();
   public static Scanner input = new Scanner(System.in);
 
   // !! Add book
+  // !! Overloading add method to add book directly to inventory
+  public void add_book(BookType a) {
+    bookInventory.add(a);
+  }
+
   // !! Returns String of all book name
 
   public String add_book() {
@@ -67,6 +72,11 @@ public class Inventory {
   }
 
   // !! Remove book
+  // !! Overloading remove method to remove book directly to inventory
+  public void remove_book(BookType a) {
+    bookInventory.remove(a);
+  }
+
   public boolean remove_book() {
     // Scanner input = new Scanner(System.in);
     System.out.println(

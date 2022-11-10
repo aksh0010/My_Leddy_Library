@@ -51,8 +51,7 @@ public class Book {
     double cost,
     String publisher,
     int year,
-    int total_units,
-    boolean available
+    int total_units
   ) {
     this.name = name;
     this.author = author;
@@ -61,7 +60,12 @@ public class Book {
     this.publisher = publisher;
     this.year = year;
     this.total_units = total_units;
-    this.available = available;
+
+    if (total_units > 0) {
+      this.available = true;
+    } else {
+      this.available = false;
+    }
   }
 
   public void SetName(String a) {
