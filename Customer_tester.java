@@ -45,14 +45,18 @@ public class Customer_tester {
         "---------------------- Welcome ---------------------- "
       );
       do {
-        System.out.println("\nChoose an option to perform ? ");
         System.out.println(
-          "\n1) View my Account \n2) View Books avaibale in the Store \n3) Update my account \n4)Wishlist \n5)Borrowed Book \n6) Books Purchased so far\n7) Quit\n"
+          "--------------------------------------------------- "
         );
+        System.out.println(
+          "\n 1) View my Account \n 2) View Books avaibale in the Store \n 3) Update my account \n 4) Wishlist \n 5) Borrowed Book \n 6) Purchase a book \n 7) Quit\n"
+        );
+        System.out.print("\nChoose an option to perform ? ");
         user_choice = main_menu_input.nextInt();
+        System.out.println();
 
         switch (user_choice) {
-          case 1: // !! __________________________________ View Account  __________________________________
+          case 1: // !! __________________________________ View Account  ______________________________________________
             c1.View_account();
             break;
           case 2: // !! __________________________________ View Available books in store __________________________________
@@ -62,19 +66,24 @@ public class Customer_tester {
             c1.update_account();
             break;
           case 4: // !! __________________________________ WISH LIST __________________________________
-            System.out.println("1)To view books\n2)Add to Wishlist");
+            System.out.println(
+              "1)To view books\n2)Add to Wishlist\n3)Go back "
+            );
             switch (main_menu_input.nextInt()) {
               case 1:
                 c1.view_wishlist();
                 break;
               case 2:
                 sInventory.view_books();
-                System.out.println(
-                  "Choose an index of the book to add to your wishlist"
+                System.out.print(
+                  "Choose an index of the book to add to your wishlist : "
                 );
                 int temp = main_menu_input.nextInt(); // !! Input for reference for book user wants
-                System.out.println("Enter no of unit for the book");
+                System.out.println();
+                System.out.print("Enter no of unit for the book : ");
                 int unit = main_menu_input.nextInt();
+                System.out.println();
+
                 if (
                   temp > 0 &&
                   unit > 0 &&
@@ -83,29 +92,63 @@ public class Customer_tester {
                   BookType refBook = sInventory.bookInventory.get(temp);
                   c1.add_to_wishlist(refBook, unit);
                 } else {
-                  System.out.println("Please enter values correctly.");
+                  System.out.println(" Please enter values correctly.");
                 }
-
+              case 3:
                 break;
               default:
-                System.out.println("No such option");
+                System.out.println(" No such option");
             }
             // c1.view_wishlist();
             break;
           case 5: // !! __________________________________ Borrowed LIST __________________________________
-            c1.view_Borrowed_books(); // !! Working hereeee
+            System.out.println(
+              " 1) To view Borrowed books\n 2) Borrow a book ! \n 3) Go back "
+            );
+            switch (main_menu_input.nextInt()) {
+              case 1:
+                c1.view_Borrowed_books();
+                break;
+              case 2:
+                sInventory.view_books();
+                System.out.print(
+                  " Choose an index of the book you want to borrow : "
+                );
+                int temp = main_menu_input.nextInt(); // !! Input for reference for book user wants
+                System.out.println();
+                System.out.print(" Enter no of unit for the book : ");
+                System.out.println();
+
+                int unit = main_menu_input.nextInt();
+                if (
+                  temp > 0 &&
+                  unit > 0 &&
+                  temp < sInventory.bookInventory.size() - 1
+                ) {
+                  BookType refBook = sInventory.bookInventory.get(temp);
+                  c1.add_to_borrowedList(refBook, unit);
+                } else {
+                  System.out.println(" Please enter values correctly.");
+                }
+
+                break;
+              case 3:
+                break;
+              default:
+                System.out.println(" No such option");
+            }
             break;
-          case 6: // !! __________________________________ Purchased history  __________________________________
+          case 6: // !! __________________________________ Purchase a book   __________________________________
             c1.view_bought_books();
             break;
           case 7: // !! __________________________________ Exit __________________________________
             loop_Condition = false;
             break;
           default:
-            System.out.println("\nNo such option \n\n");
+            System.out.println("\n No such option \n\n");
         }
       } while (loop_Condition);
-      System.out.println("\n\nGood Bye ! \n");
+      System.out.println("\n\n Good Bye ! \n");
       System.out.println(
         "-----------------------------------------------------------"
       );
@@ -117,13 +160,13 @@ public class Customer_tester {
       );
     } catch (ArrayIndexOutOfBoundsException e) {
       System.err.println(
-        "*****************Index number doesnot exist |" +
+        "\n*****************Index number doesnot exist |" +
         e +
         "|*****************\n\n"
       );
     } catch (Exception e) {
       System.err.println(
-        "***************** Error caught |" + e + "|*****************\n\n"
+        "\n***************** Error caught |" + e + "|*****************\n\n"
       );
     }
 
