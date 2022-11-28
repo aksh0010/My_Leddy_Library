@@ -9,6 +9,8 @@ import java.util.Scanner;
 public class Customer_tester {
 
   public static void main(String[] args) throws ParseException {
+    
+
     // !!_____________________________________________________________________
     // !! Creating books and adding them to inventory
     Inventory sInventory = new Inventory(); // !! this is empty inventory

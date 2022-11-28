@@ -28,16 +28,16 @@ public class Librarian_tester {
 
         switch (user_choice) {
           case 1: // !! __________________________________View Inventory __________________________________
-            sInventory.view_books();
+            sInventory.view_books1();
             break;
           case 2: // !! __________________________________ Add new books__________________________________
             sInventory.add_book();
             break;
           case 3: // !! __________________________________Remove books __________________________________
-            sInventory.remove_book();
+            sInventory.remove_book1();
             break;
           case 4: // !! __________________________________ Update information of a book__________________________________
-            sInventory.update_details();
+            sInventory.update_details1();
             break;
           case 5: // !! __________________________________ quit __________________________________
             loop_Condition = false;

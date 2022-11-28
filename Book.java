@@ -139,7 +139,7 @@ public class Book {
     }
   }
 
-  public boolean getAvailability() {
+  public boolean available() {
     return this.available;
   }
 

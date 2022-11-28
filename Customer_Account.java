@@ -3,6 +3,11 @@
  * @author Liam Richter Gorey
  */
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -103,37 +108,50 @@ public class Customer_Account {
 
   // !! View Borrowed books
 
-  public void view_Borrowed_books() {
+  public boolean view_Borrowed_books() {
     if (borrowed_books.isEmpty()) {
       System.out.println("___ No borrowed books ___");
+      return false;
     } else {
       borrowed_books.forEach((key, value) ->
         System.out.println(key + " " + value)
       );
+      return true;
     }
   }
+  //method that gets borrowed books from the customer table from the database
+  public String getBorrowedBooksFromDB() {
+    String borrowedBooks = "";
+    return borrowedBooks;
+    
+  }
+
 
   // !!
-  public void add_to_borrowedList(BookType book, int units) {
+  public boolean add_to_borrowedList(BookType book, int units) {
     if (units > 0) {
       if (borrowed_books.containsKey(book)) {
         borrowed_books.replace(book, units);
         System.out.println(
           " Book already in Wishlist. \n Updated the no of units \n"
         );
+        return false;
       } else {
         borrowed_books.putIfAbsent(book, units);
+        return true;
       }
     } else {
       System.out.println("Negative values are not allowed. ");
+      return false;
     }
   }
 
   // !!  Wishlist methods
 
-  public void view_wishlist() {
+  public boolean view_wishlist() {
     if (wishList_books.isEmpty()) {
       System.out.println("___ No books in Wishlist ___");
+      return false;
     } else {
       // wishList_books.forEach((key, value) ->
       //   System.out.println(key + " " + value)
@@ -142,6 +160,7 @@ public class Customer_Account {
       wishList_books.forEach((key, value) ->
         System.out.println(key + " : " + value)
       );
+      return true;
     }
   }
 
@@ -171,9 +190,10 @@ public class Customer_Account {
     }
   }
 
+ 
   // !!  View my account.
 
-  public void View_account() {
+  public boolean View_account() {
     System.out.println("--------------------------------------------------");
     System.out.println(getFname() + " " + getLname());
     System.out.println("Date of birth " + getDate_of_birth());
@@ -181,8 +201,60 @@ public class Customer_Account {
     System.out.println("Contact no : " + getContact_no());
     System.out.println("Address : " + getAddress());
     System.out.println("--------------------------------------------------");
+    return true;
   }
 
+  //view customer account from database
+  public boolean View_account1(int c_id){
+    String uname = "root";
+    String password = "Hotwings88$";
+    String url = "jdbc:mysql://localhost:3306/test_schema";
+    String query = "SELECT * FROM customer WHERE c_id = " + c_id;
+
+    try {
+      Connection con = DriverManager.getConnection(url, uname, password);
+      Statement st = con.createStatement();
+      ResultSet rs = st.executeQuery(query);
+      while (rs.next()) {
+        System.out.println("--------------------------------------------------");
+        System.out.println(rs.getString("fname") + " " + rs.getString("lname"));
+        System.out.println("Date of birth " + rs.getString("dob"));
+        System.out.println("Email : " + rs.getString("email"));
+        System.out.println("Contact no : " + rs.getString("contact_no"));
+        System.out.println("Address : " + rs.getString("address"));
+        System.out.println("--------------------------------------------------");
+      }
+      return true;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  // !! Add to Bought/Purchased Books
+  public Boolean buy_books(String username,String name, String author, long isbn, int make_year, int units, double price) {
+    String uname = "root";
+	String password = "Hotwings88$";
+    String url = "jdbc:mysql://localhost:3306/test_schema";
+  
+    try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+    } catch (ClassNotFoundException e) {
+      System.out.println("Where is your MySQL JDBC Driver?");
+      e.printStackTrace();
+    }
+    final String insertQuery = "INSERT INTO books (name, author, isbn, make_year, total_in_stock, cost_per_unit) VALUES ('" + name + "', '" + author + "', '" + isbn + "', '" + make_year + "', '" + units + "', '" + price + "' )";
+    try{
+      Connection con = DriverManager.getConnection(url, uname, password);
+      Statement st = con.createStatement();
+      st.executeUpdate(insertQuery);
+      return true;
+    } catch (SQLException e) {
+      System.out.println("Connection Failed! Check output console");
+      e.printStackTrace();
+    }
+    return false;
+  }
   // !! Update account
   public void update_account() {
     System.out.println(
