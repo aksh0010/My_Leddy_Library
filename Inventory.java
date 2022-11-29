@@ -3,13 +3,21 @@
  * @author Liam Richter Gorey
  */
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 public class Inventory {
 
   public ArrayList<BookType> bookInventory = new ArrayList<>();
   public static Scanner input = new Scanner(System.in);
-
+  String uname = "root";
+  String password = "Hotwings88$";
+  String url = "jdbc:mysql://localhost:3306/test_schema";
   // !! Add book
   // !! Overloading add method to add book directly to inventory
   public void add_book(BookType a) {
@@ -58,8 +66,21 @@ public class Inventory {
         );
         loop_book_type.SetPrice(input.nextDouble());
 
-        bookInventory.add(loop_book_type);
-        to_return = to_return + loop_book_type.getName();
+        String insertQuery = "INSERT INTO books (isbn, name, author, price, publisher, year, total_units,Booktype) VALUES ('" + loop_book_type.getISBN() + "', '" + loop_book_type.getName() + "', '" 
+         + loop_book_type.getAuthor() + "', '" + loop_book_type.getPrice() + "', '" + loop_book_type.getPublisher() + "', '" + loop_book_type.getYear() + "', '" + loop_book_type.getUnit() +  "','" + loop_book_type.getCategory() +"' )";
+
+         try{
+          Connection con = DriverManager.getConnection(url, uname, password);
+          Statement stmt = con.createStatement();
+          stmt.executeUpdate(insertQuery);
+          con.close();
+        }catch (SQLException e){
+          e.printStackTrace() ;
+        }catch (InputMismatchException e){
+          System.out.println("Invalid input");
+          to_return ="false";
+        }
+        to_return ="true";
       }
     } else {
       to_return = "!!Error!!";
@@ -76,8 +97,12 @@ public class Inventory {
   public void remove_book(BookType a) {
     bookInventory.remove(a);
   }
-
+  /*
   public boolean remove_book() {
+    String uname = "root";
+		String password = "Hotwings88$";
+    String url = "jdbc:mysql://localhost:3306/test_schema";
+
     // Scanner input = new Scanner(System.in);
     System.out.println(
       "---------------------- Removing Book ----------------------"
@@ -89,12 +114,22 @@ public class Inventory {
       );
       return false;
     } else {
-      view_books();
+      view_books1();
       System.out.println(
         "Choose an index of the book you want to remove from below list"
       );
       int user_choice;
       user_choice = input.nextInt();
+      
+      Connection con = DriverManager.getConnection(url, uname, password);
+      Statement stmt = con.createStatement();
+      String query = "select count(*) from Cricketers_Data";
+      //Executing the query
+      ResultSet rs = stmt.executeQuery(query);
+      //Retrieving the result
+      rs.next();
+      int count = rs.getInt(1);
+
       if (user_choice <= bookInventory.size() && user_choice > 0) {
         System.out.println(
           bookInventory.get(user_choice - 1).getName() +
@@ -113,7 +148,55 @@ public class Inventory {
         return false;
       }
     }
-  }
+  }*/
+
+  //drop book from table based on selected index 
+  public boolean remove_book1(){
+    String uname = "root";
+		String password = "Hotwings88$";
+    String url = "jdbc:mysql://localhost:3306/test_schema";
+
+    try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+        } 
+    catch (ClassNotFoundException e) {
+        System.out.println("Where is your MySQL JDBC Driver?");
+        e.printStackTrace();
+        return false;
+    }
+    System.out.println(
+      "---------------------- Removing Book ----------------------"
+    );
+    //removes book based on the name of book inputted by user
+    view_books1();
+    System.out.println("\nEnter the isbn of the book you want to remove: ");
+    long ISBN = input.nextLong();
+    String deleteQuery = "DELETE FROM books WHERE isbn = '" + ISBN + "'";
+    try{
+      Connection con = DriverManager.getConnection(url, uname, password);
+      Statement stmt = con.createStatement();
+      stmt.executeUpdate(deleteQuery);
+      con.close();
+    }catch (SQLException e){
+      e.printStackTrace();
+      return false;
+    }catch(Exception e){
+      System.out.println("Book not found");
+      return false;
+    }
+    System.out.println(
+    	      "---------------------- New Book list----------------------"
+    	    );
+    view_books1();
+   
+    
+    System.out.println(
+    	      "-------------------------------------------------"
+    	    );
+          return true;
+  } 
+  //insert a  user account into the database which will be used in the libraian tester class
+  
 
   // !! Priting inventory in tabulor form
   public boolean view_books() {
@@ -164,9 +247,51 @@ public class Inventory {
       return true;
     }
   }
+  //view all books data from database table 
+  public boolean view_books1(){
+    String uname = "root";
+    String password = "Hotwings88$";
+    String url = "jdbc:mysql://localhost:3306/test_schema";
+    String query = "SELECT * FROM books";
+    try{
+      Class.forName("com.mysql.cj.jdbc.Driver");
+      Connection con = DriverManager.getConnection(url,uname,password);
+      Statement st = con.createStatement();
+      ResultSet rs = st.executeQuery(query);
+      System.out.println(
+        "---------------------------------------------------------------------------------------------------------------------------"
+      );
+      while(rs.next()){
+        System.out.println("\nISBN: "+rs.getString(1) + " | Bookname: " + rs.getString(2) + " | Author: " + rs.getString(3)+ " | Price of book: " + rs.getString(4) + " | Publisher: " + rs.getString(5) +" | Year: " + rs.getString(6)+ " | #ofBooksAvi: " + rs.getString(7));
+      }
+      System.out.println("---------------------- End of Book list----------------------");
+      return true;
+    }catch(SQLException e){
+      System.out.println(e);
+      e.printStackTrace();
+      return false;
+    }
+    catch(Exception e){
+      System.out.println(e);
+      return false;
+    }
+}
 
+/*
   // !! Update details of individual object
   public boolean update_details() {
+	  String uname = "root";
+	  String password = "Hotwings88$";
+      String url = "jdbc:mysql://localhost:3306/test_schema";
+      try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+      } catch (ClassNotFoundException e) {
+          System.out.println("Where is your MySQL JDBC Driver?");
+          e.printStackTrace();
+      }
+      
+      
+      
     if (bookInventory.size() == 0) {
       System.out.println("\n\nNo book in database to update details");
       System.out.println(
@@ -174,18 +299,21 @@ public class Inventory {
       );
       return false;
     } else {
-      view_books();
+      view_books1();
       System.out.println("Which book you want to update ( Choose index)");
 
       int temp = input.nextInt();
 
-      if (temp <= bookInventory.size() && temp > 0) {
+      //temp <= bookInventory.size() && temp > 0
+      if (true) {
         BookType refBook = bookInventory.get(temp - 1);
 
         System.out.println(
-          "What do you want to update regarding the book ?\n 1) Name 2)Author 3) Publisher 4) Cost 5) ISBN 6)Make Year 7)Total units available"
+          "What do you want to update regarding the book ?\n 1) Name 2)Author 3) Publisher 4) Cost 6)Make Year 7)Total units available"
         );
-
+        
+        Long isbn = refBook.getISBN();
+        
         switch (input.nextInt()) {
           case 1:
             System.out.println("Enter new name of the book");
@@ -225,12 +353,12 @@ public class Inventory {
             );
             view_books();
             break;
-          case 5:
+          /*case 5:
             System.out.println("Enter new ISBN of the book");
             refBook.SetISBN(input.nextInt());
             System.out.println(
               "---------------------- Updated list ----------------------"
-            );
+            )
             view_books();
             break;
           case 6:
@@ -256,6 +384,17 @@ public class Inventory {
             );
             return false;
         }
+        //update book on database using the isbn number selected by user
+        String insertQuery = "UPDATE books SET name = "+ refBook.getName() + " , author = "+ refBook.getAuthor() + ", publisher = "+ refBook.getPublisher() + ", category = "+ refBook.getCategory() + ", make_year = "+ refBook.getYear() + ", total_in_stock = "+ refBook.getUnit() + ", cost_per_unit = "+ refBook.getPrice() + " WHERE isbn = " +isbn+";";
+        
+          try{
+              Connection con = DriverManager.getConnection(url, uname, password);
+              Statement stmt = con.createStatement();
+              stmt.executeUpdate(insertQuery);
+              con.close();
+          }catch (SQLException e){
+              e.printStackTrace() ;
+          }
         return true;
       } else {
         System.out.println("!! No such index");
@@ -265,7 +404,229 @@ public class Inventory {
         return false;
       }
     }
-  }
-  // !! Functions for customers below:
+  }*/
 
+  public boolean update_details1() {
+	  String uname = "root";
+	  String password = "Hotwings88$";
+      String url = "jdbc:mysql://localhost:3306/test_schema";
+      try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+      } catch (ClassNotFoundException e) {
+          System.out.println("Where is your MySQL JDBC Driver?");
+          e.printStackTrace();
+      }
+/* */
+      view_books1();
+      System.out.println("\nEnter the isbn of the book you want to update: ");
+      long ISBN = input.nextLong();
+
+      //temp <= bookInventory.size() && temp > 0
+      
+        //BookType refBook = bookInventory.get(temp - 1);
+        
+        System.out.println(
+          "What do you want to update regarding the book ?\n 1) Name 2)Author 3) Publisher 4) Cost 6)Make Year 7)Total units available"
+        );
+   
+        
+        switch (input.nextInt()) {
+          case 1:
+            System.out.println("Enter new name of the book: ");
+            input.nextLine();// move the buffer reader to next character instead of empty space 
+            String temp = input.nextLine();
+             // !! reference  the input to new line as nextint() doesnot point to new line
+            
+            //update  theh name of the book using the temp variable comparing with the isbn using a prepared staeement
+            String insertQuery = "UPDATE books SET name = ? WHERE isbn = ?;";
+            
+            try{
+                Connection con = DriverManager.getConnection(url, uname, password);
+                PreparedStatement stmt = con.prepareStatement(insertQuery);
+                stmt.setString(1, temp);
+                stmt.setLong(2, ISBN);
+                
+                stmt.executeUpdate();
+                con.close();
+            }catch (SQLException e){
+                e.printStackTrace() ;
+                return false;
+            }
+            catch(Exception e) {
+            	System.out.print(e);
+              return false;
+            }
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books1();
+
+            break;
+          case 2:
+            System.out.println("Enter new Author name of the book");
+            input.nextLine();// move the buffer reader to next character instead of empty space 
+            temp = input.nextLine();
+             // !! reference  the input to new line as nextint() doesnot point to new line
+            
+            //update  theh name of the book using the temp variable comparing with the isbn using a prepared staeement
+            insertQuery = "UPDATE books SET Author = ? WHERE isbn = ?;";
+            
+            try{
+                Connection con = DriverManager.getConnection(url, uname, password);
+                PreparedStatement stmt = con.prepareStatement(insertQuery);
+                stmt.setString(1, temp);
+                stmt.setLong(2, ISBN);
+                
+                stmt.executeUpdate();
+                con.close();
+            }catch (SQLException e){
+                e.printStackTrace() ;
+                return false;
+            }
+            catch(Exception e) {
+            	System.out.print(e);
+              return false;
+            }
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books1();
+
+            break;
+          case 3:
+            System.out.println("Enter new Publisher name of the book");
+            input.nextLine();// move the buffer reader to next character instead of empty space 
+            temp = input.nextLine();
+             // !! reference  the input to new line as nextint() doesnot point to new line
+            
+            //update  theh name of the book using the temp variable comparing with the isbn using a prepared staeement
+            insertQuery = "UPDATE books SET publisher = ? WHERE isbn = ?;";
+            
+            try{
+                Connection con = DriverManager.getConnection(url, uname, password);
+                PreparedStatement stmt = con.prepareStatement(insertQuery);
+                stmt.setString(1, temp);
+                stmt.setLong(2, ISBN);
+                
+                stmt.executeUpdate();
+                con.close();
+            }catch (SQLException e){
+                e.printStackTrace() ;
+                return false;
+            }
+            catch(Exception e) {
+            	System.out.print(e);
+              return false;
+            }
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books1();
+            break;
+          case 4:
+            System.out.println("Enter new Cost per unit of the book");
+            temp = input.nextLine();
+             // !! reference  the input to new line as nextint() doesnot point to new line
+            
+            //update  the name of the book using the temp variable comparing with the isbn using a prepared staeement
+            insertQuery = "UPDATE books SET price = ? WHERE isbn = ?;";
+            
+            try{
+                Connection con = DriverManager.getConnection(url, uname, password);
+                PreparedStatement stmt = con.prepareStatement(insertQuery);
+                stmt.setString(1, temp);
+                stmt.setLong(2, ISBN);
+                
+                stmt.executeUpdate();
+                con.close();
+            }catch (SQLException e){
+                e.printStackTrace() ;
+                return false;
+            }
+            catch(Exception e) {
+            	System.out.print(e);
+              return false;
+            }
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books1();
+            break;
+          /*case 5:
+            System.out.println("Enter new ISBN of the book");
+            refBook.SetISBN(input.nextInt());
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            )
+            view_books();
+            break;*/
+          case 6:
+            System.out.println("Enter new Make Year of the book");
+            temp = input.nextLine();
+             // !! reference  the input to new line as nextint() doesnot point to new line
+            
+            //update  the name of the book using the temp variable comparing with the isbn using a prepared staeement
+            insertQuery = "UPDATE books SET year = ? WHERE isbn = ?;";
+            
+            try{
+                Connection con = DriverManager.getConnection(url, uname, password);
+                PreparedStatement stmt = con.prepareStatement(insertQuery);
+                stmt.setString(1, temp);
+                stmt.setLong(2, ISBN);
+                
+                stmt.executeUpdate();
+                con.close();
+            }catch (SQLException e){
+                e.printStackTrace() ;
+                return false;
+            }
+            catch(Exception e) {
+            	System.out.print(e);
+              return false;
+            }
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books1();
+            break;
+          case 7:
+            System.out.println("Enter new total units of the book");
+            temp = input.nextLine();
+             // !! reference  the input to new line as nextint() doesnot point to new line
+            
+            //update  theh name of the book using the temp variable comparing with the isbn using a prepared staeement
+            insertQuery = "UPDATE books SET total_units = ? WHERE isbn = ?;";
+            
+            try{
+                Connection con = DriverManager.getConnection(url, uname, password);
+                PreparedStatement stmt = con.prepareStatement(insertQuery);
+                stmt.setString(1, temp);
+                stmt.setLong(2, ISBN);
+                
+                stmt.executeUpdate();
+                con.close();
+            }catch (SQLException e){
+                e.printStackTrace() ;
+                return false;
+            }
+            catch(Exception e) {
+            	System.out.print(e);
+              return false;
+            }
+            System.out.println(
+              "---------------------- Updated list ----------------------"
+            );
+            view_books1();
+            break;
+          default:
+            System.out.println("!! Not a valid  option");
+            System.out.println(
+              "-----------------------------------------------------------"
+            );
+            return false;
+        }
+        return true;
+  // !! Functions for customers below:
+    }
+  
 }

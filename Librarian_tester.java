@@ -9,7 +9,13 @@ public class Librarian_tester {
 
   public static void main(String[] args) {
     Inventory sInventory = new Inventory();
-
+    Customer_Account c1 = new Customer_Account( // !! Hard creating customer account with details
+    "Aksh",
+    "Patel",
+    "10/08/2001",
+    "aksh@gmail.com",
+    12345678
+  );
     // !! Printing List of all items for user
 
     Scanner main_menu_input = new Scanner(System.in);
@@ -22,26 +28,32 @@ public class Librarian_tester {
       do {
         System.out.println("Choose an option to perform ? ");
         System.out.println(
-          "1) View Inventory \n2) Add new books \n3) Remove books \n4) Update information for exisiting book\n5) Quit"
+          "1) View Inventory \n2) Add new books \n3) Remove books \n4) Update information for exisiting book\n5) Add User Account \n7) Quit"
         );
         user_choice = main_menu_input.nextInt();
 
         switch (user_choice) {
           case 1: // !! __________________________________View Inventory __________________________________
-            sInventory.view_books();
+            sInventory.view_books1();
             break;
           case 2: // !! __________________________________ Add new books__________________________________
             sInventory.add_book();
             break;
           case 3: // !! __________________________________Remove books __________________________________
-            sInventory.remove_book();
+            sInventory.remove_book1();
             break;
           case 4: // !! __________________________________ Update information of a book__________________________________
-            sInventory.update_details();
+            sInventory.update_details1();
             break;
-          case 5: // !! __________________________________ quit __________________________________
+          case 5: // !! __________________________________ Add user __________________________________
+            c1.add_user();
+            break;
+            /* 
+          case 6: // !! __________________________________ Delete user __________________________________
+            c1.delete_user();
+            break;*/
+          case 7: // !! __________________________________ quit __________________________________
             loop_Condition = false;
-
             break;
           default:
             System.out.println("No such option \n\n");

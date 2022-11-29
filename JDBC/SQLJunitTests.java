@@ -1,4 +1,4 @@
-package JDBC;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.*;
@@ -7,13 +7,10 @@ import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import BookType;
-import Customer_Account;
-
 public class SQLJunitTests {
     public static Scanner input = new Scanner(System.in);
 
-    public BookType testbook = new BookType();
+    public static BookType testbook = new BookType();
     public Customer_Account customer = new Customer_Account( 
     "FNAME",
     "LNAME",
@@ -26,11 +23,20 @@ public class SQLJunitTests {
     public static int user_choice = 1;
     String uname = "root";
 	String password = "Hotwings88$";
-	String query = "SELECT * FROM books";
+	public static String insertBook = "INSERT INTO books (title, author, genre, price, quantity) VALUES (?,?,?,?,?)";
+	/*String query = "\"INSERT INTO books (NAME, AUTHOR, PUBLISHER, CATEGORY, ISBN, MAKE_YEAR, TOTAL_IN_STOCK, COST_PER_UNIT) VALUES (testbook.getName(),testbook.getAuthor(), testbook.getPublisher(), testbook.getCategory()
+			+ "    	                
+			+ "    	              
+			+ "    	                 + \"', '\" + \n"
+			+ "    	                testbook.getISBN() + \"', '\" + \n"
+			+ "    	                testbook.getYear() + \"', '\" +\n"
+			+ "    	                testbook.getUnit() + \"', '\" + \n"
+			+ "    	                testbook.getPrice() + \"')\";";
+			*/
     String url = "jdbc:mysql://localhost:3306/myleddy";
-	
+
     @BeforeAll
-    public void setUp() throws SQLException {
+    public static void setUp() throws SQLException {
     	testbook.SetName("TestBook");
     	testbook.SetAuthor("TestAuthor");
     	testbook.SetPublisher("TestPublisher");
@@ -39,30 +45,51 @@ public class SQLJunitTests {
     	testbook.SetYear(2022);
     	testbook.SetUnit(10);
     	testbook.SetPrice(24.99);
+    	try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+        	System.out.println("Driver not found");
+        }
     }
-
+   
     /*Librarian tests*/
 
     //Successfully add new book
     @Test
     public void TestCase1(){
-    	Connection con = DriverManager.getConnection(url, uname, password);
-    	Statement stmt = con.createStatement();
-    	stmt.execute("INSERT INTO Books " +
-                "(NAME, AUTHOR, PUBLISHER, CATEGORY, ISBN, MAKE_YEAR, TOTAL_IN_STOCK, COST_PER_UNIT) VALUES ('" + 
-                testbook.getName() + "', '" + 
-                testbook.getAuthor() + "', '" + 
-                testbook.getPublisher() + "', '" + 
-                testbook.getCategory() + "', '" + 
-                testbook.getISBN() + "', '" + 
-                testbook.getYear() + "', '" +
-                testbook.getUnit() + "', '" + 
-                testbook.getPrice() + "')");
-
-        assertEquals(true, );
+    	  //test adding a book into the database
+        try {
+        	Connection con = DriverManager.getConnection(url, uname, password);
+        	PreparedStatement stmt = con.prepareStatement(insertBook);
+        	stmt.setString(1, testbook.getName());
+        	stmt.setString(2, testbook.getAuthor());
+        	stmt.setString(3, testbook.getPublisher());
+        	stmt.setString(4, testbook.getCategory());
+        	stmt.setLong(5, testbook.getISBN());
+        	stmt.setInt(6, testbook.getYear());
+        	stmt.setInt(7, testbook.getUnit());
+        	stmt.setDouble(8, testbook.getPrice());
+        	stmt.executeUpdate();
+        	assertEquals(testbook.getName(), "TestBook");
+        	stmt.close();
+        	con.close();
+        	
+        }catch(SQLException e) {
+        	System.out.println("Error");
+        }
+        
+        /* 
+    	   try {
+    		   Connection con = DriverManager.getConnection(url, uname, password);
+    	    	Statement stmt = con.createStatement();
+    	    	assertEquals(true,stmt.execute(query));
+    	   }catch(SQLException e){
+    		   e.printStackTrace() ;
+    	   }  */
     }
 
     //Successfully remove existing book
+    
     @Test
     public void TestCase2(){
         boolean removedbook = stmt.execute("UPDATE Books SET TOTAL_IN_STOCK=0 WHERE num=" + user_choice);
@@ -130,7 +157,7 @@ public class SQLJunitTests {
 
         assertEquals(true, newuser);
     }
-
+    
     //Successfully returns existing user
     @Test
     public void TestCase6(){
@@ -235,4 +262,6 @@ public class SQLJunitTests {
 
         assertEquals(true, boughtbook && buybook && decreasebookavail);
      }
+     
+     
 }

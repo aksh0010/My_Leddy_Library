@@ -12,16 +12,6 @@ class TestCase5 {
 	
 	/*As a bookkeeper, I want to update the availability of a book.*/
 	@Test
-	void testcase1() {
-		b1.setAvailability(false);
-		assertEquals(false, b1.getAvailability());
-	}
-	@Test
-	void testcase2() {
-		b1.setAvailability(true);
-		assertEquals(true, b1.getAvailability());
-	}
-	@Test
 	void testcase3() {
 		b1.SetUnit(10);
 		assertEquals(10, b1.getUnit());

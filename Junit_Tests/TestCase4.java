@@ -9,13 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class TestCase4 {
-	
+	Inventory inventory = new Inventory();
 	/*As a bookkeeper, I want to update the book*/
 	@Test
 	void testcase1() { // !!update exisitng book
 		try {
-			Inventory.add_book();
-			assertEquals(true, Inventory.update_details());
+			assertEquals(true, inventory.update_details1());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
@@ -23,7 +22,7 @@ class TestCase4 {
 	@Test
 	void testcase2() { // !! want to update a book which doesnt exist
 		try {
-			assertEquals(false,Inventory.update_details());
+			assertEquals(false,inventory.update_details1());
 		}catch(Exception e){
 			fail("Error" + e);
 		}
